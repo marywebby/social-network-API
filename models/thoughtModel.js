@@ -2,6 +2,30 @@
 // require mongoose 
 const { Schema, model } = require('mongoose');
 
+// creating a new schema for reactions 
+const reactionSchema = new Schema(
+    {
+        reactionId : {
+            type: Schema.Types.ObjectId,
+            default: () => new Types.ObjectId(),
+          },
+        responseBody: {
+            type: String,
+            required: true,
+            maxlength: 280,
+          },
+          username: {
+            type: String,
+            required: true,
+          },
+          createdAt: {
+            type: Date,
+            default: Date.now,
+            get: (timestamp) => dateFormat(timestamp)
+          },
+    },
+);
+
 // creating a new schema for thoughts 
 const thoughtSchema = new Schema(
     {
@@ -37,37 +61,8 @@ thoughtSchema.virtual('reactionCount')
     return this.reactions.length;
 })
 
-// creating a new schema for reactions 
-const reactionSchema = new Schema(
-    {
-        reactionId : {
-            type: Schema.Type.ObjectId,
-            default: () => new Types.ObjectId(),
-          },
-        responseBody: {
-            type: String,
-            required: true,
-            maxlength: 280,
-          },
-          username: {
-            type: String,
-            required: true,
-          },
-          createdAt: {
-            type: Date,
-            default: Date.now,
-          },
-    },
-    {
-        toJSON: {
-          virtuals: true,
-          getters: true,
-        },
-        id: false,
-      }
-);
 
-
-const Thought = model('Thought', thoughtSchema);
-const Reaction = model('Reaction', reactionSchema);
-module.exports =  Thought, Reaction ;
+const Thought = model('thought', thoughtSchema);
+// need to require Reaction? 
+// const Reaction = model('Reaction', reactionSchema);
+module.exports =  Thought;
