@@ -1,4 +1,4 @@
-// get reequests from thoughts controller and place in here 
+// get requests from thoughts controller and place in here 
 
 // example 
 // /api/courses/:courseId
