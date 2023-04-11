@@ -1,6 +1,6 @@
 // creating the thought model
 // require mongoose 
-const { Schema, model } = require('mongoose');
+const { Schema, model, Types } = require('mongoose');
 
 // creating a new schema for reactions 
 const reactionSchema = new Schema(
@@ -20,10 +20,16 @@ const reactionSchema = new Schema(
           },
           createdAt: {
             type: Date,
-            default: Date.now,
-            get: (timestamp) => dateFormat(timestamp)
+            default: Date.now
           },
     },
+    {
+        toJSON: {
+            virtuals: true,
+            getters: true,
+        },
+        id: false,
+    }
 );
 
 // creating a new schema for thoughts 

@@ -81,14 +81,15 @@ module.exports = {
               ? res.status(404).json({ message: "No thought found with this ID!" })
               : res.json(thought)
           )
-          .catch((err) => res.status(500).json(err));
+          .catch((err) => {
+            res.status(500).json(err)});
     },
 
 // delete request to delete a reaction on a thought 
     deleteReaction(req,res) {
-        Thought.findOneAndDelete(
+        Thought.findOneAndUpdate(
           { _id: req.params.thoughtId },
-          { $addToSet: { reactions: req.body } },
+          { $pull: { reactions: { reactionId: req.params.reactionId } } },
           { runValidators: true, new: true }
         )
           .then((thought) =>
